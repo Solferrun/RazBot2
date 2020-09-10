@@ -48,35 +48,34 @@ namespace RazBot
         public MainWindow()
         {
             Icon = Properties.Resources.raz_zone;
-
             InitializeComponent();
             InitializeSubForms();
-			
+            
             windowsMP.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(OnPlayStateChange);
-			LoadControlSettings();
+	    LoadControlSettings();
             
             TwitchBot.Start();
             TwitchBot.Commands.MainWindow = this;
-			
-			DiscordBot.Start();
-			
+	    
+	    DiscordBot.Start();
+	    
             GuildWars.GuildWarsInit();
-			gw2DataFetcher.RunWorkerAsync();
+	    gw2DataFetcher.RunWorkerAsync();
         }
 		
-		private void LoadControlSettings()
-		{
-			windowsMP.settings.volume = (int)BotTools.Settings["volume"];
+	private void LoadControlSettings()
+	{
+	    windowsMP.settings.volume = (int)BotTools.Settings["volume"];
             trackVolume.Value = windowsMP.settings.volume;
             btnVolume.ForeColor = Color.FromArgb(255, 35, 255);
             playerLocationCache = pnlPlayerPanel.Location;
-			tbChannel.Text = BotTools.Settings["twitch_channel"];
+	    tbChannel.Text = BotTools.Settings["twitch_channel"];
             cbSongAnnounce.Checked = BotTools.Settings["announce_songs"];
             cbQuestions.Checked = BotTools.Settings["handle_questions"];
             cbVetReqeusts.Checked = BotTools.Settings["vet_requests"];
             cbRandom.Checked = BotTools.Settings["random_play"];
             cbDebug.Checked = BotTools.Settings["debug_output"];
-		}
+	}
 
         private void InitializeSubForms()
         {
@@ -85,7 +84,7 @@ namespace RazBot
             
         }
 		
-		private Color GetNextColor()
+	private Color GetNextColor()
         {
             if (lastColor + 1 >= color.Count)
             {
@@ -98,20 +97,20 @@ namespace RazBot
             return color[lastColor];
         }
 		
-		// Top Buttons
-		private void OnDiscordButtonClick(object sender, EventArgs e)
+	// Top Buttons
+	private void OnDiscordButtonClick(object sender, EventArgs e)
         {
             BotTools.LogLine("RazBot invoked \"discord\"");
             TwitchBot.SendMessage(TwitchBot.Commands.CustomMap["discord"]);
         }
 		
-		private void OnDLButtonClick(object sender, EventArgs e)
+	private void OnDLButtonClick(object sender, EventArgs e)
         {
             BotTools.LogLine("RazBot invoked \"dl\"");
             TwitchBot.SendMessage(TwitchBot.Commands.CustomMap["dl"]);
         }
 		
-		private void OnRazButtonClick(object sender, EventArgs e)
+	private void OnRazButtonClick(object sender, EventArgs e)
         {
             BotTools.LogLine("RazBot invoked \"pets\"");
             TwitchBot.SendMessage(TwitchBot.Commands.Map["pets"](new TwitchMessage()).FirstOrDefault());
@@ -135,9 +134,9 @@ namespace RazBot
             });
         }
 		
-		private void OnExitButtonClick(object sender, EventArgs e) => this.Close();
-		
-		// Log Window / Chatbox
+	private void OnExitButtonClick(object sender, EventArgs e) => this.Close();
+
+	// Log Window / Chatbox
         private void OnSendButtonClick(object sender, EventArgs e)
         {
             // Send messagebox content as though from MaericTV@Twitch
@@ -171,13 +170,13 @@ namespace RazBot
             }
         }
 		
-		public System.Diagnostics.Process p = new System.Diagnostics.Process();
+	public System.Diagnostics.Process p = new System.Diagnostics.Process();
         private void OnChatFeedLinkClick(object sender, LinkClickedEventArgs e)
         {
             p = System.Diagnostics.Process.Start(e.LinkText);
         }
 		
-		private void OnChatFeedTextChange(object sender, EventArgs e) => rtbChatFeed.ScrollToCaret();
+	private void OnChatFeedTextChange(object sender, EventArgs e) => rtbChatFeed.ScrollToCaret();
 
         // Player Controls
         private void OnPlayButtonClick(object sender, EventArgs e)
@@ -271,7 +270,7 @@ namespace RazBot
             }
         }
 		
-		private void OnVetRequestsCheckboxCheckedChanged(object sender, EventArgs e)
+	private void OnVetRequestsCheckboxCheckedChanged(object sender, EventArgs e)
         {
             BotTools.Settings["vet_requests"] = cbVetReqeusts.Checked;
             BotTools.SaveSettings();
@@ -315,7 +314,7 @@ namespace RazBot
             windowsMP.Ctlcontrols.currentPosition = newPosition;
         }
 		
-		private delegate void SafeSetTrackbarValueDelegate(int value);
+	private delegate void SafeSetTrackbarValueDelegate(int value);
         private void SetTrackbarValue(int value)
         {
             if (trackVolume.InvokeRequired)
@@ -329,9 +328,9 @@ namespace RazBot
             }
         }
 		
-		private void OnTrackingTrackbarMouseDown(object sender, MouseEventArgs e) => draggingTracker = true;
-		
-		// Volume
+	private void OnTrackingTrackbarMouseDown(object sender, MouseEventArgs e) => draggingTracker = true;
+
+	// Volume
         private void OnVolumeTrackbarValueChange(object sender, decimal value)
         {
             windowsMP.settings.volume = trackVolume.Value;
@@ -367,7 +366,7 @@ namespace RazBot
             btnVolume.Text = "VOL";
         }
 		
-		public int AdjustVolume(int adjustmentValue = 0)
+	public int AdjustVolume(int adjustmentValue = 0)
         {
             SetTrackbarValue(Math.Min(100, Math.Max(0, windowsMP.settings.volume + adjustmentValue)));
             return windowsMP.settings.volume;
@@ -410,7 +409,7 @@ namespace RazBot
             }
         }
 		
-		private void OnRemoveFromPlaylistButtonClick(object sender, EventArgs e)
+	private void OnRemoveFromPlaylistButtonClick(object sender, EventArgs e)
         {
             if (Music.LoadedSong.Requestor == "RazBot")
             {
@@ -482,7 +481,7 @@ namespace RazBot
             }
         }
 		
-		private void OnRandomPlayCheckboxCheckedChanged(object sender, EventArgs e)
+	private void OnRandomPlayCheckboxCheckedChanged(object sender, EventArgs e)
         {
             BotTools.Settings["random_play"] = cbRandom.Checked;
             cbRandom.BackColor = cbRandom.Checked ? Color.FromArgb(30, 225, 255) : Color.FromArgb(34, 15, 34);
@@ -492,8 +491,8 @@ namespace RazBot
             BotTools.SaveSettings();
         }
 		
-		// Player State
-		private void OnPlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
+	// Player State
+	private void OnPlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
             var newState = (WMPLib.WMPPlayState)e.newState;
             if (newState == WMPLib.WMPPlayState.wmppsPlaying)
@@ -558,7 +557,7 @@ namespace RazBot
             
         }
 		
-		// Twitch Channel Pane
+	// Twitch Channel Pane
         private void OnChannelTextboxKeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -595,7 +594,7 @@ namespace RazBot
             cbWit.BackgroundImage = cbWit.Checked ? Properties.Resources.wit_w_black : Properties.Resources.wit_w;
         }
 		
-		private void OnQuestionBoxCheckedChanged(object sender, EventArgs e)
+	private void OnQuestionBoxCheckedChanged(object sender, EventArgs e)
         {
             cbQuestions.ForeColor = cbQuestions.Checked ? Color.FromArgb(14, 0, 20) : Color.FromArgb(255, 35, 255);
             cbQuestions.BackgroundImage.Dispose();
@@ -621,8 +620,8 @@ namespace RazBot
             BotTools.SaveSettings();
         }
 		
-		// Main Form Drag/Close
-		public const int WM_NCLBUTTONDOWN = 0xA1;
+	// Main Form Drag/Close
+	public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -845,7 +844,7 @@ namespace RazBot
             }
         }
 		
-		private void OnPlayerVisualizerInTimerTick(object sender, EventArgs e)
+	private void OnPlayerVisualizerInTimerTick(object sender, EventArgs e)
         {
             playerVisualizerUp = true;
             pnlPlayerPanel.Visible = true;
@@ -901,7 +900,7 @@ namespace RazBot
         }
 
         // Background Workers
-		private void GW2InventoryFetcherWork(object sender, DoWorkEventArgs e)
+	private void GW2InventoryFetcherWork(object sender, DoWorkEventArgs e)
         {
             GuildWars.FetchInventoryData();
             BotTools.LogLine("GW2 Inventory Data Updated");
