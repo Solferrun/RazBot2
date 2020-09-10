@@ -58,7 +58,7 @@ namespace RazBot
                 BotTools.LogLine(invokeReport);
                 return Map[token](message);
             }
-            else if (TwitchBot.Commands.CustomMap.ContainsKey(token))
+            else if (CustomMap.ContainsKey(token))
             {
                 string invokeReport = $"{message.DisplayName} invoked \"{token}\" ->";
                 if (message.HasInvokation) invokeReport += $"\n\t|| TOKEN: {message.Token}";
