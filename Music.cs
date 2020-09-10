@@ -106,7 +106,10 @@ namespace RazBot
                 catch { }
             }
             Music.Playlists["request"].Songs.Clear();
-            if (DownloadedSong.IsRequest) DownloadedSong = null;
+            if (DownloadedSong.IsRequest)
+	    {
+		DownloadedSong = null;
+	    }
             Music.SavePlaylists();
         }
 
